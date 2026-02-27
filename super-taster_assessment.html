@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super-Taster Assessment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+    
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        overflow: hidden;
+    }
+    
+    .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px;
+        text-align: center;
+    }
+    
+    .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+    
+    .header p {
+        font-size: 1.1em;
+        opacity: 0.9;
+    }
+    
+    .content {
+        padding: 40px;
+    }
+    
+    .intro {
+        background: #f8f9ff;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        border-left: 4px solid #667eea;
+    }
+    
+    .intro h2 {
+        color: #667eea;
+        margin-bottom: 10px;
+    }
+    
+    .question {
+        background: #f8f9ff;
+        padding: 25px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border-left: 4px solid #764ba2;
+    }
+    
+    .question h3 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 1.1em;
+    }
+    
+    .options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .option {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        background: white;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .option:hover {
+        border-color: #667eea;
+        background: #f0f4ff;
+    }
+    
+    .option input[type="radio"] {
+        margin-right: 12px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+    
+    .option label {
+        cursor: pointer;
+        flex: 1;
+    }
+    
+    .button-container {
+        text-align: center;
+        margin-top: 30px;
+    }
+    
+    button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        font-size: 1.1em;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        font-weight: 600;
+    }
+    
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+    }
+    
+    .results {
+        display: none;
+        padding: 30px;
+        background: #f8f9ff;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+    
+    .results.show {
+        display: block;
+        animation: fadeIn 0.5s;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .result-box {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border-left: 4px solid #667eea;
+    }
+    
+    .result-box h2 {
+        color: #667eea;
+        margin-bottom: 15px;
+    }
+    
+    .result-box h3 {
+        color: #764ba2;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    
+    .result-box ul {
+        margin-left: 20px;
+        line-height: 1.8;
+    }
+    
+    .score-display {
+        font-size: 3em;
+        font-weight: bold;
+        color: #667eea;
+        text-align: center;
+        margin: 20px 0;
+    }
+    
+    .restart-btn {
+        background: #764ba2;
+        margin-top: 20px;
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍋 Super-Taster Assessment 🍋</h1>
+            <p>Discover your taste sensitivity level</p>
+        </div>
+
+```
+    <div class="content">
+        <div class="intro">
+            <h2>What is a Super-Taster?</h2>
+            <p>Super-tasters are people with heightened taste sensitivity due to having more taste buds (specifically fungiform papillae) on their tongue. They experience flavors more intensely than average tasters, particularly bitter compounds. About 25% of people are super-tasters, 50% are medium tasters, and 25% are non-tasters.</p>
+        </div>
+        
+        <form id="quizForm">
+            <div class="question">
+                <h3>1. How do you experience bitter foods like black coffee, dark chocolate (85%+), or grapefruit?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q1a" name="q1" value="3" required>
+                        <label for="q1a">Extremely bitter and unpleasant, almost unbearable</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1b" name="q1" value="2">
+                        <label for="q1b">Moderately bitter, but I can tolerate them</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1c" name="q1" value="1">
+                        <label for="q1c">Mildly bitter or hardly bitter at all</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3>2. Do you find vegetables like broccoli, Brussels sprouts, or kale to be bitter?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q2a" name="q2" value="3" required>
+                        <label for="q2a">Yes, very bitter - I often avoid them</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q2b" name="q2" value="2">
+                        <label for="q2b">Somewhat bitter, but tolerable with preparation</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q2c" name="q2" value="1">
+                        <label for="q2c">Not particularly bitter - I enjoy them</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3>3. How sensitive are you to spicy foods?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q3a" name="q3" value="3" required>
+                        <label for="q3a">Very sensitive - even mild spice is too much</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q3b" name="q3" value="2">
+                        <label for="q3b">Moderately sensitive - I like some spice but not too much</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q3c" name="q3" value="1">
+                        <label for="q3c">Not very sensitive - I can handle quite spicy food</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3>4. Do you find artificial sweeteners like saccharin or stevia to have a bitter aftertaste?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q4a" name="q4" value="3" required>
+                        <label for="q4a">Yes, strongly - I can't stand them</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q4b" name="q4" value="2">
+                        <label for="q4b">Somewhat - I notice an off taste</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q4c" name="q4" value="1">
+                        <label for="q4c">No, they taste fine to me</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3>5. How do you experience the texture of fatty or creamy foods?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q5a" name="q5" value="3" required>
+                        <label for="q5a">Overwhelming or unpleasant - too rich or coating</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q5b" name="q5" value="2">
+                        <label for="q5b">Pleasant in moderation</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q5c" name="q5" value="1">
+                        <label for="q5c">Very enjoyable - I love rich, creamy foods</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3>6. Do you add salt or sugar to foods to make them more palatable?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q6a" name="q6" value="1" required>
+                        <label for="q6a">Rarely or never - foods are flavorful enough</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q6b" name="q6" value="2">
+                        <label for="q6b">Sometimes, depending on the food</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q6c" name="q6" value="3">
+                        <label for="q6c">Frequently - I need to add seasoning to most foods</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3>7. How would you describe your food preferences?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q7a" name="q7" value="3" required>
+                        <label for="q7a">Picky - I have strong likes and dislikes</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q7b" name="q7" value="2">
+                        <label for="q7b">Moderate - I'm selective but flexible</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q7c" name="q7" value="1">
+                        <label for="q7c">Adventurous - I'll try almost anything</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3>8. Can you detect subtle differences in foods that others might miss?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q8a" name="q8" value="3" required>
+                        <label for="q8a">Yes, frequently - I notice small changes in recipes or brands</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q8b" name="q8" value="2">
+                        <label for="q8b">Sometimes - I notice obvious differences</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q8c" name="q8" value="1">
+                        <label for="q8c">Rarely - food tastes pretty similar to me</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3>9. How do you react to strong flavors like blue cheese, anchovies, or kimchi?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q9a" name="q9" value="3" required>
+                        <label for="q9a">Overwhelming - they're too intense for me</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q9b" name="q9" value="2">
+                        <label for="q9b">Intense but enjoyable in small amounts</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q9c" name="q9" value="1">
+                        <label for="q9c">I love them - the stronger the better</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <h3>10. Do you dislike the taste of alcohol in general?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q10a" name="q10" value="3" required>
+                        <label for="q10a">Yes, very much - I can't stand the taste</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q10b" name="q10" value="2">
+                        <label for="q10b">It's okay in mixed drinks or with food</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q10c" name="q10" value="1">
+                        <label for="q10c">I enjoy the taste of alcohol / I don't drink for other reasons</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Get My Results</button>
+            </div>
+        </form>
+
+        <div class="results" id="results">
+            <div class="result-box">
+                <h2>Your Results</h2>
+                <div class="score-display" id="scoreDisplay"></div>
+                <div id="resultText"></div>
+            </div>
+            <div class="button-container">
+                <button class="restart-btn" onclick="location.reload()">Take Quiz Again</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        let score = 0;
+        for (let i = 1; i <= 10; i++) {
+            const answer = document.querySelector(`input[name="q${i}"]:checked`);
+            if (answer) {
+                score += parseInt(answer.value);
+            }
+        }
+        
+        document.getElementById('scoreDisplay').textContent = `${score} / 30 points`;
+        
+        let resultHTML = '';
+        
+        if (score >= 24) {
+            resultHTML = `
+                <h3>🌟 Likely Super-Taster</h3>
+                <p>Your responses suggest you're likely a super-taster! You experience tastes more intensely than most people.</p>
+                <h3>Common Characteristics:</h3>
+                <ul>
+                    <li>Strong aversion to bitter foods and vegetables</li>
+                    <li>Heightened sensitivity to spicy foods and textures</li>
+                    <li>Preference for bland or mild foods</li>
+                    <li>Can detect subtle flavor differences others miss</li>
+                    <li>May have more fungiform papillae (taste buds) on your tongue</li>
+                </ul>
+                <h3>Next Steps:</h3>
+                <ul>
+                    <li>Consider trying a PROP (6-n-propylthiouracil) taste test strip for confirmation</li>
+                    <li>A healthcare provider can examine your tongue to count papillae density</li>
+                    <li>Embrace your unique palate and don't feel bad about food preferences</li>
+                </ul>
+            `;
+        } else if (score >= 17) {
+            resultHTML = `
+                <h3>👍 Likely Medium Taster</h3>
+                <p>Your responses suggest you're likely a medium taster - you're in the majority! You experience tastes at an average intensity.</p>
+                <h3>Common Characteristics:</h3>
+                <ul>
+                    <li>Moderate taste sensitivity - neither extremely sensitive nor insensitive</li>
+                    <li>Can enjoy a wide variety of foods</li>
+                    <li>May notice some bitter flavors but they're not overwhelming</li>
+                    <li>Generally flexible with food choices</li>
+                    <li>Average number of fungiform papillae on your tongue</li>
+                </ul>
+                <h3>Next Steps:</h3>
+                <ul>
+                    <li>Try a PROP taste test to see where you fall on the spectrum</li>
+                    <li>Continue exploring diverse cuisines and flavors</li>
+                    <li>Your balanced palate allows you to appreciate many different foods</li>
+                </ul>
+            `;
+        } else {
+            resultHTML = `
+                <h3>😋 Likely Non-Taster</h3>
+                <p>Your responses suggest you might be a non-taster. You have lower taste sensitivity compared to others, which means you experience flavors less intensely.</p>
+                <h3>Common Characteristics:</h3>
+                <ul>
+                    <li>Lower sensitivity to bitter compounds</li>
+                    <li>Enjoy strong, intense flavors</li>
+                    <li>May need more seasoning or stronger flavors to satisfy your palate</li>
+                    <li>Adventurous eater with few food aversions</li>
+                    <li>Fewer fungiform papillae on your tongue</li>
+                </ul>
+                <h3>Next Steps:</h3>
+                <ul>
+                    <li>Try a PROP taste test for confirmation</li>
+                    <li>Your palate is great for trying bold, adventurous cuisines</li>
+                    <li>You may enjoy foods that super-tasters find overwhelming</li>
+                    <li>Be mindful of adding less salt/sugar for health reasons</li>
+                </ul>
+            `;
+        }
+        
+        resultHTML += `
+            <h3>⚠️ Important Note:</h3>
+            <p>This quiz is based on self-reported taste preferences and common super-taster traits identified in research. For a definitive answer, consult with a healthcare provider who can perform a PROP taste test or examine the density of fungiform papillae on your tongue.</p>
+        `;
+        
+        document.getElementById('resultText').innerHTML = resultHTML;
+        document.getElementById('quizForm').style.display = 'none';
+        document.getElementById('results').classList.add('show');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+</script>
+```
+
+</body>
+</html>

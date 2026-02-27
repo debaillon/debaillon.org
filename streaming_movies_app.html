@@ -1,0 +1,586 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currently Streaming Movies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .platform-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .platform-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .platform-btn.active {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .netflix-btn { background: linear-gradient(45deg, #e50914, #b20710); color: white; }
+        .netflix-btn.active { box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4); }
+
+        .amazon-btn { background: linear-gradient(45deg, #00a8e1, #0073aa); color: white; }
+        .amazon-btn.active { box-shadow: 0 5px 15px rgba(0, 168, 225, 0.4); }
+
+        .disney-btn { background: linear-gradient(45deg, #113ccf, #0d2c8c); color: white; }
+        .disney-btn.active { box-shadow: 0 5px 15px rgba(17, 60, 207, 0.4); }
+
+        .hulu-btn { background: linear-gradient(45deg, #1ce783, #0bb562); color: white; }
+        .hulu-btn.active { box-shadow: 0 5px 15px rgba(28, 231, 131, 0.4); }
+
+        .hbo-btn { background: linear-gradient(45deg, #8a2be2, #6a1b9a); color: white; }
+        .hbo-btn.active { box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4); }
+
+        .apple-btn { background: linear-gradient(45deg, #007aff, #005cbf); color: white; }
+        .apple-btn.active { box-shadow: 0 5px 15px rgba(0, 122, 255, 0.4); }
+
+        .paramount-btn { background: linear-gradient(45deg, #0066cc, #004499); color: white; }
+        .paramount-btn.active { box-shadow: 0 5px 15px rgba(0, 102, 204, 0.4); }
+
+        .all-btn { background: linear-gradient(45deg, #4ecdc4, #44a08d); color: white; }
+        .all-btn.active { box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4); }
+
+        .last-updated {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4ecdc4;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 50px 0;
+            color: #4ecdc4;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(78, 205, 196, 0.3);
+            border-radius: 50%;
+            border-top-color: #4ecdc4;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .movie-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .movie-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .movie-card:hover::before {
+            left: 100%;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(78, 205, 196, 0.5);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .movie-card:hover .movie-poster {
+            transform: scale(1.05);
+        }
+
+        .movie-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .movie-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .rating {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .overview {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .streaming-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .streaming-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #4ecdc4;
+        }
+
+        .platform-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .netflix { background: linear-gradient(45deg, #e50914, #b20710); }
+        .amazon { background: linear-gradient(45deg, #00a8e1, #0073aa); }
+        .disney { background: linear-gradient(45deg, #113ccf, #0d2c8c); }
+        .hulu { background: linear-gradient(45deg, #1ce783, #0bb562); }
+        .hbo { background: linear-gradient(45deg, #8a2be2, #6a1b9a); }
+        .apple { background: linear-gradient(45deg, #007aff, #005cbf); }
+        .paramount { background: linear-gradient(45deg, #0066cc, #004499); }
+
+        .availability-date {
+            font-size: 0.8rem;
+            color: #a0a0a0;
+            margin-top: 5px;
+        }
+
+        .refresh-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(78, 205, 196, 0.3);
+            background: linear-gradient(45deg, #44a08d, #4ecdc4);
+        }
+
+        .error-message {
+            text-align: center;
+            color: #ff6b6b;
+            padding: 20px;
+            margin: 20px 0;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .movies-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .platform-filter {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 Currently Streaming Movies</h1>
+            <p>Movies available for streaming right now on your favorite platforms</p>
+        </div>
+
+        <div class="platform-filter">
+            <button class="platform-btn all-btn active" onclick="filterPlatform('all')">🎯 All Platforms</button>
+            <button class="platform-btn netflix-btn" onclick="filterPlatform('netflix')">Netflix</button>
+            <button class="platform-btn amazon-btn" onclick="filterPlatform('amazon')">Prime Video</button>
+            <button class="platform-btn disney-btn" onclick="filterPlatform('disney')">Disney+</button>
+            <button class="platform-btn hulu-btn" onclick="filterPlatform('hulu')">Hulu</button>
+            <button class="platform-btn hbo-btn" onclick="filterPlatform('hbo')">HBO Max</button>
+            <button class="platform-btn apple-btn" onclick="filterPlatform('apple')">Apple TV+</button>
+            <button class="platform-btn paramount-btn" onclick="filterPlatform('paramount')">Paramount+</button>
+        </div>
+
+        <div id="last-updated" class="last-updated"></div>
+
+        <button class="refresh-btn" onclick="loadStreamingMovies()">
+            🔄 Refresh Current Movies
+        </button>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            Loading currently streaming movies...
+        </div>
+
+        <div id="error-message" class="error-message" style="display: none;"></div>
+
+        <div id="movies-container" class="movies-grid"></div>
+    </div>
+
+    <script>
+        // API Configuration
+        const TMDB_API_KEY = '40d952ccc3f22233094eade59859bcf7';
+        const WATCHMODE_API_KEY = 'YOUR_WATCHMODE_API_KEY_HERE'; // Replace with Watchmode API key for streaming data
+        
+        const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+        const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+        
+        // Streaming platform mapping
+        const streamingPlatforms = {
+            netflix: { id: 8, name: 'Netflix', class: 'netflix' },
+            amazon: { id: 10, name: 'Amazon Prime Video', class: 'amazon' },
+            disney: { id: 337, name: 'Disney+', class: 'disney' },
+            hulu: { id: 15, name: 'Hulu', class: 'hulu' },
+            hbo: { id: 384, name: 'HBO Max', class: 'hbo' },
+            apple: { id: 350, name: 'Apple TV+', class: 'apple' },
+            paramount: { id: 531, name: 'Paramount+', class: 'paramount' }
+        };
+
+        let currentFilter = 'all';
+        let allMovies = [];
+
+        function showError(message) {
+            const errorEl = document.getElementById('error-message');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+        }
+
+        function hideError() {
+            const errorEl = document.getElementById('error-message');
+            errorEl.style.display = 'none';
+        }
+
+        function filterPlatform(platform) {
+            currentFilter = platform;
+            
+            // Update button states
+            document.querySelectorAll('.platform-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            displayMovies(allMovies);
+        }
+
+        async function fetchStreamingMovies() {
+            try {
+                const moviesWithStreaming = [];
+                
+                // Fetch movies from each platform
+                for (const [platformKey, platform] of Object.entries(streamingPlatforms)) {
+                    try {
+                        const response = await fetch(
+                            `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_watch_providers=${platform.id}&watch_region=US&sort_by=popularity.desc&page=1`
+                        );
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            
+                            // Add streaming info to each movie
+                            const moviesWithPlatform = data.results.slice(0, 8).map(movie => ({
+                                ...movie,
+                                streaming_platforms: [{
+                                    id: platform.id,
+                                    name: platform.name,
+                                    class: platform.class,
+                                    key: platformKey
+                                }],
+                                added_to_platform: new Date().toISOString().split('T')[0]
+                            }));
+                            
+                            moviesWithStreaming.push(...moviesWithPlatform);
+                        }
+                    } catch (error) {
+                        console.warn(`Failed to fetch from ${platform.name}:`, error);
+                    }
+                }
+
+                // Remove duplicates and shuffle
+                const uniqueMovies = moviesWithStreaming.reduce((acc, movie) => {
+                    const existing = acc.find(m => m.id === movie.id);
+                    if (existing) {
+                        // Merge streaming platforms
+                        existing.streaming_platforms.push(...movie.streaming_platforms);
+                    } else {
+                        acc.push(movie);
+                    }
+                    return acc;
+                }, []);
+
+                return uniqueMovies.sort(() => 0.5 - Math.random()).slice(0, 20);
+
+            } catch (error) {
+                console.error('Error fetching streaming movies:', error);
+                throw error;
+            }
+        }
+
+        function createMovieCard(movie) {
+            const posterUrl = movie.poster_path 
+                ? `${TMDB_IMAGE_BASE_URL}${movie.poster_path}`
+                : `https://via.placeholder.com/500x750/4a5568/ffffff?text=${encodeURIComponent(movie.title.substring(0, 20))}`;
+            
+            const releaseYear = movie.release_date ? new Date(movie.release_date).getFullYear() : 'Unknown';
+            const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
+
+            const platformsHtml = movie.streaming_platforms
+                .map(platform => `<span class="platform-tag ${platform.class}">${platform.name}</span>`)
+                .join(' ');
+
+            return `
+                <div class="movie-card" data-platforms="${movie.streaming_platforms.map(p => p.key).join(',')}">
+                    <img src="${posterUrl}" 
+                         alt="${movie.title}" 
+                         class="movie-poster" 
+                         loading="lazy"
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/500x750/4a5568/ffffff?text=${encodeURIComponent(movie.title.substring(0, 20))}'; this.style.objectFit='contain';">
+                    <div class="movie-title">${movie.title}</div>
+                    <div class="movie-info">
+                        <span>📅 ${releaseYear}</span>
+                        <span class="rating">⭐ ${rating}</span>
+                    </div>
+                    <div class="overview">${movie.overview || 'No description available.'}</div>
+                    <div class="streaming-info">
+                        <div class="streaming-title">🎯 Currently streaming on:</div>
+                        ${platformsHtml}
+                        <div class="availability-date">Available as of ${movie.added_to_platform}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayMovies(movies) {
+            const moviesContainer = document.getElementById('movies-container');
+            
+            let filteredMovies = movies;
+            if (currentFilter !== 'all') {
+                filteredMovies = movies.filter(movie => 
+                    movie.streaming_platforms.some(platform => platform.key === currentFilter)
+                );
+            }
+
+            if (filteredMovies.length === 0) {
+                moviesContainer.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: #888;">
+                        No movies found for the selected platform. Try refreshing or selecting a different platform.
+                    </div>
+                `;
+                return;
+            }
+
+            moviesContainer.innerHTML = filteredMovies.map(createMovieCard).join('');
+
+            // Add staggered animation
+            const cards = document.querySelectorAll('.movie-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        }
+
+        async function loadStreamingMovies() {
+            const loadingEl = document.getElementById('loading');
+            const moviesContainer = document.getElementById('movies-container');
+            const lastUpdatedEl = document.getElementById('last-updated');
+
+            hideError();
+            loadingEl.style.display = 'block';
+            moviesContainer.innerHTML = '';
+
+            try {
+                const movies = await fetchStreamingMovies();
+                allMovies = movies;
+                
+                loadingEl.style.display = 'none';
+                
+                const now = new Date();
+                lastUpdatedEl.textContent = `Last updated: ${now.toLocaleTimeString()} - Showing currently available movies`;
+
+                displayMovies(allMovies);
+
+            } catch (error) {
+                loadingEl.style.display = 'none';
+                showError(`Error loading streaming movies: ${error.message}`);
+                
+                // Fallback to mock streaming data
+                console.warn('Falling back to mock streaming data');
+                loadMockStreamingMovies();
+            }
+        }
+
+        function loadMockStreamingMovies() {
+            const mockStreamingMovies = [
+                {
+                    id: 1,
+                    title: "The Gray Man",
+                    release_date: "2022-07-22",
+                    vote_average: 6.5,
+                    overview: "When a shadowy CIA agent uncovers damning agency secrets, he's hunted across the globe by a sociopathic rogue operative who's put a bounty on his head.",
+                    poster_path: null,
+                    streaming_platforms: [{ key: 'netflix', name: 'Netflix', class: 'netflix' }],
+                    added_to_platform: '2022-07-22'
+                },
+                {
+                    id: 2,
+                    title: "The Terminal List",
+                    release_date: "2022-07-01",
+                    vote_average: 8.0,
+                    overview: "Navy SEAL Commander James Reece turns to vengeance as he investigates the mysterious forces behind the murder of his entire platoon.",
+                    poster_path: null,
+                    streaming_platforms: [{ key: 'amazon', name: 'Amazon Prime Video', class: 'amazon' }],
+                    added_to_platform: '2022-07-01'
+                },
+                {
+                    id: 3,
+                    title: "Turning Red",
+                    release_date: "2022-03-11",
+                    vote_average: 7.0,
+                    overview: "A 13-year-old girl named Meilin turns into a giant red panda whenever she gets too excited.",
+                    poster_path: null,
+                    streaming_platforms: [{ key: 'disney', name: 'Disney+', class: 'disney' }],
+                    added_to_platform: '2022-03-11'
+                }
+            ];
+
+            allMovies = mockStreamingMovies;
+            const moviesContainer = document.getElementById('movies-container');
+            const lastUpdatedEl = document.getElementById('last-updated');
+            
+            const now = new Date();
+            lastUpdatedEl.textContent = `Last updated: ${now.toLocaleTimeString()} (Mock Streaming Data)`;
+
+            displayMovies(allMovies);
+        }
+
+        // Auto-load movies when page loads
+        document.addEventListener('DOMContentLoaded', loadStreamingMovies);
+
+        // Auto-refresh every 10 minutes (streaming availability doesn't change that often)
+        setInterval(loadStreamingMovies, 600000);
+    </script>
+</body>
+</html>

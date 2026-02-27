@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEBAILLON, LLC - Technology Consulting & Digital Strategy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #4facfe;
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
+        .header {
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(100px) translateY(100px); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.5s ease;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 0 0 rgba(255,255,255,0.4); }
+            50% { box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 0 20px rgba(255,255,255,0); }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .company-name {
+            font-weight: 800;
+            font-size: 4rem;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s ease-out 0.2s both;
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-top: 1rem;
+            opacity: 0.95;
+            letter-spacing: 1px;
+            animation: fadeInDown 1s ease-out 0.4s both;
+        }
+
+        .container {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            max-width: 1600px;
+            margin: 3rem auto;
+            gap: 2rem;
+            padding: 0 2rem;
+            z-index: 1;
+        }
+
+        .quadrant {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .quadrant:nth-child(1) { animation-delay: 0.1s; }
+        .quadrant:nth-child(2) { animation-delay: 0.2s; }
+        .quadrant:nth-child(3) { animation-delay: 0.3s; }
+        .quadrant:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .quadrant:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .quadrant h2 {
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.2rem;
+            font-weight: 800;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .quadrant h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .quadrant:hover h2::after {
+            width: 120px;
+        }
+
+        /* Services List */
+        .list-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .list-section li {
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+            margin-bottom: 1rem;
+            padding: 1.5rem 1.5rem 1.5rem 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .list-section li::before {
+            content: "◆";
+            color: #667eea;
+            position: absolute;
+            left: 1rem;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .list-section li::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .list-section li:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25);
+            background: linear-gradient(135deg, #e0e7ff 0%, #ffffff 100%);
+        }
+
+        .list-section li:hover::before {
+            transform: scale(1.3) rotate(45deg);
+            color: #764ba2;
+        }
+
+        .list-section li:hover::after {
+            transform: scaleY(1);
+        }
+
+        /* Experience Section */
+        .image-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-section::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: backgroundMove 20s linear infinite;
+        }
+
+        @keyframes backgroundMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .image-section h2 {
+            color: white;
+            -webkit-text-fill-color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .experience-number {
+            font-size: 8rem;
+            font-weight: 900;
+            line-height: 1;
+            margin: 2rem 0;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: countUp 2s ease-out;
+            z-index: 1;
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .experience-text {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            z-index: 1;
+        }
+
+        .experience-details {
+            font-size: 1.2rem;
+            max-width: 450px;
+            line-height: 1.8;
+            opacity: 0.95;
+            z-index: 1;
+        }
+
+        /* About Section */
+        .text-section p {
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: left;
+            font-size: 1.1rem;
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+            color: #2d3748;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .text-section p::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .text-section p:hover {
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .text-section p:hover::before {
+            transform: scaleX(1);
+        }
+
+        .text-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #667eea 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .contact-section h2 {
+            color: white;
+            -webkit-text-fill-color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: #f8f9ff;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .footer-link {
+            position: relative;
+            text-align: center;
+            padding: 2rem;
+            z-index: 1;
+        }
+
+        .footer-link a {
+            color: #1a1a3e;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.8rem 2rem;
+            background: #1a1a3e;
+            border-radius: 25px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .footer-link a:hover {
+            background: #1a1a3e;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            color: #1a1a3e;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0 1rem;
+                margin: 2rem auto;
+            }
+            
+            .header {
+                padding: 2rem 1.5rem;
+            }
+
+            .logo-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .logo {
+                width: 120px;
+                height: 120px;
+            }
+
+            .company-name {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1.1rem;
+            }
+
+            .experience-number {
+                font-size: 5rem;
+            }
+
+            .experience-text {
+                font-size: 1.5rem;
+            }
+
+            .quadrant {
+                padding: 2rem;
+            }
+
+            .quadrant h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background particles -->
+    <div class="bg-particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-container">
+				<img src="http://www.debaillon.org/logo.png" class="logo" alt="logo"></div>
+                <div class="company-name">DEBAILLON, LLC</div>
+            </div>
+            <div class="tagline">Technology Consulting & Digital Strategy</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Quadrant 1: Services List -->
+        <div class="quadrant list-section">
+            <h2>Core Services</h2>
+            <ul>
+                <li>Technology Consulting & Strategic Planning</li>
+                <li>Digital Transformation & Innovation</li>
+                <li>IT Infrastructure & Architecture</li>
+                <li>IT Project & Risk Management</li>
+                <li>Cloud Solutions & Migration</li>
+                <li>Business Process Optimization</li>
+                <li>IT Leadership & Team Development</li>
+                <li>Vendor Management & Technology Selection</li>
+            </ul>
+        </div>
+
+        <!-- Quadrant 2: Experience Highlight -->
+        <div class="quadrant image-section">
+            <h2>Experience That Matters</h2>
+            <div class="experience-number">30+</div>
+            <div class="experience-text">Years in IT</div>
+            <div class="experience-details">
+                Comprehensive expertise across all facets of information technology, from infrastructure to strategy, delivering results that drive business success.
+            </div>
+        </div>
+
+        <!-- Quadrant 3: About -->
+        <div class="quadrant text-section">
+            <h2>About Us</h2>
+            <p>
+                With over three decades of hands-on experience in information technology, DEBAILLON, LLC brings unparalleled expertise to help businesses navigate the complex landscape of modern technology. Our comprehensive understanding spans every area of IT, from foundational infrastructure to cutting-edge digital strategy.
+            </p>
+            <p>
+                We don't just implement technology—we partner with you to understand your business goals and craft solutions that drive real growth and success. Our passion for technology is matched only by our commitment to seeing our clients thrive in an increasingly digital world.
+            </p>
+        </div>
+
+        <!-- Quadrant 4: Contact -->
+        <div class="quadrant contact-section">
+            <h2>Let's Connect</h2>
+            <div class="contact-form">
+                <form action="https://formspree.io/f/meozlzaz" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company:</label>
+                        <input type="text" id="company" name="company">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-link">
+		<color="#1a1a3e"><a href="http://www.debaillon.org/funstuff.html">fun stuff</a></color>
+    </div>
+</body>
+</html>

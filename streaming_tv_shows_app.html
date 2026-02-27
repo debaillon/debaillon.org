@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currently Streaming TV Shows</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .platform-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .platform-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .platform-btn.active {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .netflix-btn { background: linear-gradient(45deg, #e50914, #b20710); color: white; }
+        .netflix-btn.active { box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4); }
+
+        .amazon-btn { background: linear-gradient(45deg, #00a8e1, #0073aa); color: white; }
+        .amazon-btn.active { box-shadow: 0 5px 15px rgba(0, 168, 225, 0.4); }
+
+        .disney-btn { background: linear-gradient(45deg, #113ccf, #0d2c8c); color: white; }
+        .disney-btn.active { box-shadow: 0 5px 15px rgba(17, 60, 207, 0.4); }
+
+        .hulu-btn { background: linear-gradient(45deg, #1ce783, #0bb562); color: white; }
+        .hulu-btn.active { box-shadow: 0 5px 15px rgba(28, 231, 131, 0.4); }
+
+        .hbo-btn { background: linear-gradient(45deg, #8a2be2, #6a1b9a); color: white; }
+        .hbo-btn.active { box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4); }
+
+        .apple-btn { background: linear-gradient(45deg, #007aff, #005cbf); color: white; }
+        .apple-btn.active { box-shadow: 0 5px 15px rgba(0, 122, 255, 0.4); }
+
+        .paramount-btn { background: linear-gradient(45deg, #0066cc, #004499); color: white; }
+        .paramount-btn.active { box-shadow: 0 5px 15px rgba(0, 102, 204, 0.4); }
+
+        .all-btn { background: linear-gradient(45deg, #4ecdc4, #44a08d); color: white; }
+        .all-btn.active { box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4); }
+
+        .last-updated {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4ecdc4;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 50px 0;
+            color: #4ecdc4;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(78, 205, 196, 0.3);
+            border-radius: 50%;
+            border-top-color: #4ecdc4;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .shows-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .show-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .show-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .show-card:hover::before {
+            left: 100%;
+        }
+
+        .show-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(78, 205, 196, 0.5);
+        }
+
+        .show-poster {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .show-card:hover .show-poster {
+            transform: scale(1.05);
+        }
+
+        .show-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .show-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .rating {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .seasons-badge {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .show-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .status-ongoing {
+            background: linear-gradient(45deg, #1ce783, #0bb562);
+        }
+
+        .status-ended {
+            background: linear-gradient(45deg, #666, #444);
+        }
+
+        .overview {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .streaming-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .streaming-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #4ecdc4;
+        }
+
+        .platform-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .netflix { background: linear-gradient(45deg, #e50914, #b20710); }
+        .amazon { background: linear-gradient(45deg, #00a8e1, #0073aa); }
+        .disney { background: linear-gradient(45deg, #113ccf, #0d2c8c); }
+        .hulu { background: linear-gradient(45deg, #1ce783, #0bb562); }
+        .hbo { background: linear-gradient(45deg, #8a2be2, #6a1b9a); }
+        .apple { background: linear-gradient(45deg, #007aff, #005cbf); }
+        .paramount { background: linear-gradient(45deg, #0066cc, #004499); }
+
+        .availability-date {
+            font-size: 0.8rem;
+            color: #a0a0a0;
+            margin-top: 5px;
+        }
+
+        .refresh-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(78, 205, 196, 0.3);
+            background: linear-gradient(45deg, #44a08d, #4ecdc4);
+        }
+
+        .error-message {
+            text-align: center;
+            color: #ff6b6b;
+            padding: 20px;
+            margin: 20px 0;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .shows-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .platform-filter {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📺 Currently Streaming TV Shows</h1>
+            <p>TV shows available for streaming right now on your favorite platforms</p>
+        </div>
+
+        <div class="platform-filter">
+            <button class="platform-btn all-btn active" onclick="filterPlatform('all')">🎯 All Platforms</button>
+            <button class="platform-btn netflix-btn" onclick="filterPlatform('netflix')">Netflix</button>
+            <button class="platform-btn amazon-btn" onclick="filterPlatform('amazon')">Prime Video</button>
+            <button class="platform-btn disney-btn" onclick="filterPlatform('disney')">Disney+</button>
+            <button class="platform-btn hulu-btn" onclick="filterPlatform('hulu')">Hulu</button>
+            <button class="platform-btn hbo-btn" onclick="filterPlatform('hbo')">HBO Max</button>
+            <button class="platform-btn apple-btn" onclick="filterPlatform('apple')">Apple TV+</button>
+            <button class="platform-btn paramount-btn" onclick="filterPlatform('paramount')">Paramount+</button>
+        </div>
+
+        <div id="last-updated" class="last-updated"></div>
+
+        <button class="refresh-btn" onclick="loadStreamingShows()">
+            🔄 Refresh Current Shows
+        </button>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            Loading currently streaming TV shows...
+        </div>
+
+        <div id="error-message" class="error-message" style="display: none;"></div>
+
+        <div id="shows-container" class="shows-grid"></div>
+    </div>
+
+    <script>
+        // API Configuration
+        const TMDB_API_KEY = '40d952ccc3f22233094eade59859bcf7';
+        
+        const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+        const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+        
+        // Streaming platform mapping
+        const streamingPlatforms = {
+            netflix: { id: 8, name: 'Netflix', class: 'netflix' },
+            amazon: { id: 9, name: 'Amazon Prime Video', class: 'amazon' },
+            disney: { id: 337, name: 'Disney+', class: 'disney' },
+            hulu: { id: 15, name: 'Hulu', class: 'hulu' },
+            hbo: { id: 384, name: 'HBO Max', class: 'hbo' },
+            apple: { id: 350, name: 'Apple TV+', class: 'apple' },
+            paramount: { id: 531, name: 'Paramount+', class: 'paramount' }
+        };
+
+        let currentFilter = 'all';
+        let allShows = [];
+
+        function showError(message) {
+            const errorEl = document.getElementById('error-message');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+        }
+
+        function hideError() {
+            const errorEl = document.getElementById('error-message');
+            errorEl.style.display = 'none';
+        }
+
+        function filterPlatform(platform) {
+            currentFilter = platform;
+            
+            // Update button states
+            document.querySelectorAll('.platform-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            displayShows(allShows);
+        }
+
+        async function fetchStreamingShows() {
+            try {
+                const showsWithStreaming = [];
+                
+                // Fetch TV shows from each platform
+                for (const [platformKey, platform] of Object.entries(streamingPlatforms)) {
+                    try {
+                        const response = await fetch(
+                            `${TMDB_BASE_URL}/discover/tv?api_key=${TMDB_API_KEY}&with_watch_providers=${platform.id}&watch_region=US&sort_by=popularity.desc&page=1`
+                        );
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            
+                            // Add streaming info to each show
+                            const showsWithPlatform = data.results.slice(0, 8).map(show => ({
+                                ...show,
+                                streaming_platforms: [{
+                                    id: platform.id,
+                                    name: platform.name,
+                                    class: platform.class,
+                                    key: platformKey
+                                }],
+                                added_to_platform: new Date().toISOString().split('T')[0]
+                            }));
+                            
+                            showsWithStreaming.push(...showsWithPlatform);
+                        }
+                    } catch (error) {
+                        console.warn(`Failed to fetch from ${platform.name}:`, error);
+                    }
+                }
+
+                // Remove duplicates and shuffle
+                const uniqueShows = showsWithStreaming.reduce((acc, show) => {
+                    const existing = acc.find(s => s.id === show.id);
+                    if (existing) {
+                        // Merge streaming platforms
+                        existing.streaming_platforms.push(...show.streaming_platforms);
+                    } else {
+                        acc.push(show);
+                    }
+                    return acc;
+                }, []);
+
+                return uniqueShows.sort(() => 0.5 - Math.random()).slice(0, 20);
+
+            } catch (error) {
+                console.error('Error fetching streaming shows:', error);
+                throw error;
+            }
+        }
+
+        function createShowCard(show) {
+            const posterUrl = show.poster_path 
+                ? `${TMDB_IMAGE_BASE_URL}${show.poster_path}`
+                : `https://via.placeholder.com/500x750/4a5568/ffffff?text=${encodeURIComponent(show.name.substring(0, 20))}`;
+            
+            const firstAirYear = show.first_air_date ? new Date(show.first_air_date).getFullYear() : 'Unknown';
+            const rating = show.vote_average ? show.vote_average.toFixed(1) : 'N/A';
+            const seasons = show.number_of_seasons || '?';
+            
+            // Determine if show is ongoing or ended
+            const isOngoing = !show.last_air_date || new Date(show.last_air_date) > new Date();
+            const statusClass = isOngoing ? 'status-ongoing' : 'status-ended';
+            const statusText = isOngoing ? 'Ongoing' : 'Ended';
+
+            const platformsHtml = show.streaming_platforms
+                .map(platform => `<span class="platform-tag ${platform.class}">${platform.name}</span>`)
+                .join(' ');
+
+            return `
+                <div class="show-card" data-platforms="${show.streaming_platforms.map(p => p.key).join(',')}">
+                    <img src="${posterUrl}" 
+                         alt="${show.name}" 
+                         class="show-poster" 
+                         loading="lazy"
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/500x750/4a5568/ffffff?text=${encodeURIComponent(show.name.substring(0, 20))}'; this.style.objectFit='contain';">
+                    <div class="show-status ${statusClass}">${statusText}</div>
+                    <div class="show-title">${show.name}</div>
+                    <div class="show-info">
+                        <span>📅 ${firstAirYear}</span>
+                        <span class="seasons-badge">📺 ${seasons} Season${seasons !== 1 && seasons !== '?' ? 's' : ''}</span>
+                        <span class="rating">⭐ ${rating}</span>
+                    </div>
+                    <div class="overview">${show.overview || 'No description available.'}</div>
+                    <div class="streaming-info">
+                        <div class="streaming-title">🎯 Currently streaming on:</div>
+                        ${platformsHtml}
+                        <div class="availability-date">Available as of ${show.added_to_platform}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayShows(shows) {
+            const showsContainer = document.getElementById('shows-container');
+            
+            let filteredShows = shows;
+            if (currentFilter !== 'all') {
+                filteredShows = shows.filter(show => 
+                    show.streaming_platforms.some(platform => platform.key === currentFilter)
+                );
+            }
+
+            if (filteredShows.length === 0) {
+                showsContainer.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: #888;">
+                        No TV shows found for the selected platform. Try refreshing or selecting a different platform.
+                    </div>
+                `;
+                return;
+            }
+
+            showsContainer.innerHTML = filteredShows.map(createShowCard).join('');
+
+            // Add staggered animation
+            const cards = document.querySelectorAll('.show-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        }
+
+        async function loadStreamingShows() {
+            const loadingEl = document.getElementById('loading');
+            const showsContainer = document.getElementById('shows-container');
+            const lastUpdatedEl = document.getElementById('last-updated');
+
+            hideError();
+            loadingEl.style.display = 'block';
+            showsContainer.innerHTML = '';
+
+            try {
+                const shows = await fetchStreamingShows();
+                allShows = shows;
+                
+                loadingEl.style.display = 'none';
+                
+                const now = new Date();
+                lastUpdatedEl.textContent = `Last updated: ${now.toLocaleTimeString()} - Showing currently available TV shows`;
+
+                displayShows(allShows);
+
+            } catch (error) {
+                loadingEl.style.display = 'none';
+                showError(`Error loading streaming TV shows: ${error.message}`);
+                
+                // Fallback to mock streaming data
+                console.warn('Falling back to mock streaming data');
+                loadMockStreamingShows();
+            }
+        }
+
+        function loadMockStreamingShows() {
+            const mockStreamingShows = [
+                {
+                    id: 1,
+                    name: "Stranger Things",
+                    first_air_date: "2016-07-15",
+                    last_air_date: null,
+                    vote_average: 8.6,
+                    number_of_seasons: 4,
+                    overview: "When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces and one strange little girl.",
+                    poster_path: null,
+                    streaming_platforms: [{ key: 'netflix', name: 'Netflix', class: 'netflix' }],
+                    added_to_platform: '2016-07-15'
+                },
+                {
+                    id: 2,
+                    name: "The Boys",
+                    first_air_date: "2019-07-26",
+                    last_air_date: null,
+                    vote_average: 8.5,
+                    number_of_seasons: 4,
+                    overview: "A group of vigilantes set out to take down corrupt superheroes who abuse their superpowers.",
+                    poster_path: null,
+                    streaming_platforms: [{ key: 'amazon', name: 'Amazon Prime Video', class: 'amazon' }],
+                    added_to_platform: '2019-07-26'
+                },
+                {
+                    id: 3,
+                    name: "The Mandalorian",
+                    first_air_date: "2019-11-12",
+                    last_air_date: null,
+                    vote_average: 8.5,
+                    number_of_seasons: 3,
+                    overview: "After the fall of the Galactic Empire, a lone gunfighter makes his way through the outer reaches of the lawless galaxy.",
+                    poster_path: null,
+                    streaming_platforms: [{ key: 'disney', name: 'Disney+', class: 'disney' }],
+                    added_to_platform: '2019-11-12'
+                },
+                {
+                    id: 4,
+                    name: "Only Murders in the Building",
+                    first_air_date: "2021-08-31",
+                    last_air_date: null,
+                    vote_average: 8.3,
+                    number_of_seasons: 3,
+                    overview: "Three strangers who share an obsession with true crime suddenly find themselves wrapped up in one.",
+                    poster_path: null,
+                    streaming_platforms: [{ key: 'hulu', name: 'Hulu', class: 'hulu' }],
+                    added_to_platform: '2021-08-31'
+                },
+                {
+                    id: 5,
+                    name: "The Last of Us",
+                    first_air_date: "2023-01-15",
+                    last_air_date: null,
+                    vote_average: 8.8,
+                    number_of_seasons: 1,
+                    overview: "After a global pandemic destroys civilization, a hardened survivor takes charge of a 14-year-old girl who may be humanity's last hope.",
+                    poster_path: null,
+                    streaming_platforms: [{ key: 'hbo', name: 'HBO Max', class: 'hbo' }],
+                    added_to_platform: '2023-01-15'
+                },
+                {
+                    id: 6,
+                    name: "Ted Lasso",
+                    first_air_date: "2020-08-14",
+                    last_air_date: "2023-05-31",
+                    vote_average: 8.4,
+                    number_of_seasons: 3,
+                    overview: "American football coach Ted Lasso heads to London to manage AFC Richmond, a struggling English Premier League football team.",
+                    poster_path: null,
+                    streaming_platforms: [{ key: 'apple', name: 'Apple TV+', class: 'apple' }],
+                    added_to_platform: '2020-08-14'
+                },
+                {
+                    id: 7,
+                    name: "1923",
+                    first_air_date: "2022-12-18",
+                    last_air_date: null,
+                    vote_average: 8.4,
+                    number_of_seasons: 1,
+                    overview: "The Dutton family faces new challenges in the early 20th century, including pandemics, drought, and the Great Depression.",
+                    poster_path: null,
+                    streaming_platforms: [{ key: 'paramount', name: 'Paramount+', class: 'paramount' }],
+                    added_to_platform: '2022-12-18'
+                }
+            ];
+
+            allShows = mockStreamingShows;
+            const showsContainer = document.getElementById('shows-container');
+            const lastUpdatedEl = document.getElementById('last-updated');
+            
+            const now = new Date();
+            lastUpdatedEl.textContent = `Last updated: ${now.toLocaleTimeString()} (Mock Streaming Data)`;
+
+            displayShows(allShows);
+        }
+
+        // Auto-load shows when page loads
+        document.addEventListener('DOMContentLoaded', loadStreamingShows);
+
+        // Auto-refresh every 10 minutes (streaming availability doesn't change that often)
+        setInterval(loadStreamingShows, 600000);
+    </script>
+</body>
+</html>

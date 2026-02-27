@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DC Movies vs Video Games - Release Timeline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a23 0%, #1a1a3a 50%, #2c2c54 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background: linear-gradient(45deg, #0078d4, #005a9e);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 120, 212, 0.3);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(45deg, #0078d4, #005a9e);
+            color: white;
+            padding: 20px 15px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 1.1em;
+            border-bottom: 3px solid #fff;
+        }
+
+        .comparison-table th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        .comparison-table th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: top;
+            transition: background-color 0.3s ease;
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .movie-title, .game-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            color: #4fc3f7;
+        }
+
+        .release-date {
+            color: #81c784;
+            font-size: 0.95em;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #ccc;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .year-header {
+            background: linear-gradient(45deg, #4fc3f7, #29b6f6);
+            color: #000;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            padding: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .comparison-table {
+                font-size: 0.9em;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 DC Movies vs 🎮 Video Games</h1>
+            <p>A comprehensive comparison of release dates (1998-2025) across DC entertainment</p>
+        </div>
+
+        <div class="table-container">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">🎬 DC Movies</th>
+                        <th style="width: 50%;">🎮 DC Video Games</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 1999 -->
+                    <tr>
+                        <td class="year-header" colspan="2">1999</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="description" style="color: #999; font-style: italic;">No major DC movie releases in 1999</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Superman</div>
+                            <div class="release-date">1999 (Nintendo 64)</div>
+                            <div class="description">Infamous Superman game known for poor controls and graphics</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2004 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2004</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Catwoman</div>
+                            <div class="release-date">July 23, 2004</div>
+                            <div class="description">Halle Berry stars as the feline anti-hero</div>
+                        </td>
+                        <td>
+                            <div class="description" style="color: #999; font-style: italic;">No major DC game releases in 2004</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2005 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2005</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Batman Begins • Constantine</div>
+                            <div class="release-date">June 15, 2005 • February 18, 2005</div>
+                            <div class="description">Christian Bale's Dark Knight debut • Keanu Reeves as occult detective</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Batman Begins</div>
+                            <div class="release-date">June 14, 2005</div>
+                            <div class="description">Action game tie-in to the Batman Begins film</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2006 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2006</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Superman Returns • V for Vendetta</div>
+                            <div class="release-date">June 28, 2006 • March 17, 2006</div>
+                            <div class="description">Brandon Routh as the Man of Steel • Hugo Weaving in dystopian thriller</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Superman Returns • Justice League Heroes</div>
+                            <div class="release-date">November 19, 2006 • October 17, 2006</div>
+                            <div class="description">Game adaptation of Superman Returns • Action RPG featuring Justice League</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2008 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2008</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">The Dark Knight</div>
+                            <div class="release-date">July 18, 2008</div>
+                            <div class="description">Heath Ledger's iconic Joker performance</div>
+                        </td>
+                        <td>
+                            <div class="game-title">The Dark Knight</div>
+                            <div class="release-date">July 18, 2008</div>
+                            <div class="description">Mobile game based on The Dark Knight film</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2009 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2009</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Watchmen</div>
+                            <div class="release-date">March 6, 2009</div>
+                            <div class="description">Zack Snyder's adaptation of Alan Moore's graphic novel</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Batman: Arkham Asylum • Watchmen: The End Is Nigh</div>
+                            <div class="release-date">August 25, 2009 • March 4, 2009</div>
+                            <div class="description">Revolutionary Batman stealth-action game • Beat 'em up prequel to Watchmen</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2010 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2010</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Jonah Hex</div>
+                            <div class="release-date">June 18, 2010</div>
+                            <div class="description">Josh Brolin as the scarred bounty hunter</div>
+                        </td>
+                        <td>
+                            <div class="description" style="color: #999; font-style: italic;">No major DC game releases in 2010</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2011 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2011</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Green Lantern</div>
+                            <div class="release-date">June 17, 2011</div>
+                            <div class="description">Ryan Reynolds as Hal Jordan with the power ring</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Batman: Arkham City • Green Lantern: Rise of the Manhunters</div>
+                            <div class="release-date">October 18, 2011 • June 7, 2011</div>
+                            <div class="description">Acclaimed sequel to Arkham Asylum • Action game tie-in to Green Lantern film</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2012 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2012</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">The Dark Knight Rises</div>
+                            <div class="release-date">July 20, 2012</div>
+                            <div class="description">Christian Bale's final Batman film with Bane as villain</div>
+                        </td>
+                        <td>
+                            <div class="game-title">The Dark Knight Rises</div>
+                            <div class="release-date">July 20, 2012</div>
+                            <div class="description">Mobile game adaptation of The Dark Knight Rises</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2013 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2013</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Man of Steel</div>
+                            <div class="release-date">June 14, 2013</div>
+                            <div class="description">Henry Cavill's Superman origin story directed by Zack Snyder</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Injustice: Gods Among Us • Batman: Arkham Origins</div>
+                            <div class="release-date">April 16, 2013 • October 25, 2013</div>
+                            <div class="description">Fighting game with evil Superman storyline • Batman prequel on Christmas Eve</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2014 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2014</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="description" style="color: #999; font-style: italic;">No major DC movie releases in 2014</div>
+                        </td>
+                        <td>
+                            <div class="description" style="color: #999; font-style: italic;">No major DC game releases in 2014</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2015 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2015</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="description" style="color: #999; font-style: italic;">No major DC movie releases in 2015</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Batman: Arkham Knight</div>
+                            <div class="release-date">June 23, 2015</div>
+                            <div class="description">Final game in Rocksteady's Arkham trilogy with Batmobile</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2016 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2016</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Batman v Superman: Dawn of Justice • Suicide Squad</div>
+                            <div class="release-date">March 25, 2016 • August 5, 2016</div>
+                            <div class="description">Epic showdown between Batman and Superman • Villains team-up film</div>
+                        </td>
+                        <td>
+                            <div class="game-title">LEGO Batman 3: Beyond Gotham</div>
+                            <div class="release-date">2014 (rereleased 2016)</div>
+                            <div class="description">LEGO Batman space adventure with Lantern Corps</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2017 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2017</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Wonder Woman • Justice League</div>
+                            <div class="release-date">June 2, 2017 • November 17, 2017</div>
+                            <div class="description">Gal Gadot's solo Wonder Woman origin • First Justice League team-up film</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Injustice 2 • LEGO Batman Movie Game</div>
+                            <div class="release-date">May 16, 2017 • February 10, 2017</div>
+                            <div class="description">Sequel to Injustice with gear system • Tie-in to The LEGO Batman Movie</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2018 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2018</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Aquaman</div>
+                            <div class="release-date">December 21, 2018</div>
+                            <div class="description">Jason Momoa's underwater adventure as King of Atlantis</div>
+                        </td>
+                        <td>
+                            <div class="description" style="color: #999; font-style: italic;">No major DC game releases in 2018</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2019 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2019</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Shazam! • Joker</div>
+                            <div class="release-date">April 5, 2019 • October 4, 2019</div>
+                            <div class="description">Zachary Levi as the magical superhero • Joaquin Phoenix's Oscar-winning Joker</div>
+                        </td>
+                        <td>
+                            <div class="description" style="color: #999; font-style: italic;">No major DC game releases in 2019</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2020 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2020</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Birds of Prey • Wonder Woman 1984</div>
+                            <div class="release-date">February 7, 2020 • December 25, 2020</div>
+                            <div class="description">Harley Quinn and the Birds of Prey • Wonder Woman in the 1980s</div>
+                        </td>
+                        <td>
+                            <div class="description" style="color: #999; font-style: italic;">No major DC game releases in 2020</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2021 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2021</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Zack Snyder's Justice League • The Suicide Squad</div>
+                            <div class="release-date">March 18, 2021 • August 6, 2021</div>
+                            <div class="description">Director's cut of Justice League • James Gunn's R-rated Suicide Squad reboot</div>
+                        </td>
+                        <td>
+                            <div class="description" style="color: #999; font-style: italic;">No major DC game releases in 2021</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2022 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2022</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">The Batman • Black Adam</div>
+                            <div class="release-date">March 4, 2022 • October 21, 2022</div>
+                            <div class="description">Robert Pattinson's dark detective Batman • Dwayne Johnson as the anti-hero</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Gotham Knights</div>
+                            <div class="release-date">October 21, 2022</div>
+                            <div class="description">Co-op action RPG featuring Batman's proteges after his death</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2023 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2023</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Shazam! Fury of the Gods • The Flash • Blue Beetle • Aquaman and the Lost Kingdom</div>
+                            <div class="release-date">March 17, 2023 • June 16, 2023 • August 18, 2023 • December 22, 2023</div>
+                            <div class="description">Shazam family vs. ancient gods • Ezra Miller's multiverse Flash • Xolo Maridueña as the Blue Beetle • Jason Momoa's Aquaman sequel</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Suicide Squad: Kill the Justice League</div>
+                            <div class="release-date">February 2, 2024 (delayed from 2023)</div>
+                            <div class="description">Co-op shooter where Suicide Squad fights corrupted Justice League</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2024 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2024</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Joker: Folie à Deux</div>
+                            <div class="release-date">October 4, 2024</div>
+                            <div class="description">Joaquin Phoenix and Lady Gaga musical sequel</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Suicide Squad: Kill the Justice League</div>
+                            <div class="release-date">February 2, 2024</div>
+                            <div class="description">Co-op shooter where Suicide Squad fights corrupted Justice League</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2025 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2025</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Superman (2025)</div>
+                            <div class="release-date">July 11, 2025</div>
+                            <div class="description">David Corenswet as Superman in James Gunn's DC Universe reboot</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Wonder Woman Game (TBA) • Superman Game (TBA)</div>
+                            <div class="release-date">TBA 2025</div>
+                            <div class="description">Monolith Productions developing Wonder Woman • Rumored Superman game in development</div>
+                        </td>
+                    </tr>
+
+                    <!-- Future Projects -->
+                    <tr>
+                        <td class="year-header" colspan="2">2026-2027</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">The Batman Part II • Supergirl: Woman of Tomorrow • The Brave and the Bold</div>
+                            <div class="release-date">October 2, 2026 • June 26, 2026 • TBA 2027</div>
+                            <div class="description">Robert Pattinson's Batman sequel • Milly Alcock as Supergirl • New Batman and Robin film</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Upcoming DC Games (TBA)</div>
+                            <div class="release-date">TBA</div>
+                            <div class="description">Various DC games rumored to be in development</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

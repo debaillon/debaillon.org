@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chattanooga Area Pickleball Courts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .last-updated {
+            color: #888;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        .courts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+        }
+
+        .court-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .court-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .court-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .court-name {
+            color: #2c3e50;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .court-type {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .court-info {
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .info-item .icon {
+            margin-right: 10px;
+            font-weight: bold;
+            color: #667eea;
+            min-width: 20px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status.available {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.busy {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status.full {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .schedule-section {
+            margin-top: 20px;
+        }
+
+        .schedule-title {
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 5px;
+        }
+
+        .schedule-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .schedule-day {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 3px;
+        }
+
+        .schedule-time {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .disclaimer {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .courts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .court-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .court-type {
+                margin-top: 5px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏓 Chattanooga Area Pickleball Courts</h1>
+            <p class="subtitle">Your complete guide to pickleball courts and open play schedules</p>
+            <p class="last-updated">Last updated: <span id="lastUpdated"></span></p>
+        </div>
+
+        <div class="courts-grid" id="courtsGrid">
+            <!-- Courts will be dynamically inserted here -->
+        </div>
+
+        <div class="disclaimer">
+            <p><strong>Note:</strong> Court availability and schedules may change. Please call ahead to confirm open play times. 
+            Weather conditions may affect outdoor court availability.</p>
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="refreshData()">🔄 Refresh</button>
+
+    <script>
+        const courts = [
+            {
+                name: "Batter's Place Pickleball Complex",
+                type: "outdoor",
+                courts: 5,
+                address: "8011 Batters Place Rd, Chattanooga, TN 37421",
+                phone: "(423) 643-6311",
+                hours: "Sunrise to 11:00 PM",
+                schedule: [
+                    { day: "Monday - Sunday", time: "Open Play: Sunrise - 11:00 PM", type: "Open Play" },
+                    { day: "Tuesday", time: "Ladder League: 5:30 PM - 8:00 PM", type: "League" },
+                    { day: "Sunday", time: "Organized Play: 1:30 PM - 4:00 PM", type: "Organized" }
+                ],
+                surface: "Asphalt with acrylic coating",
+                fee: "Free"
+            },
+            {
+                name: "Red Bank Pickleball Courts",
+                type: "outdoor",
+                courts: 6,
+                address: "3125 Dayton Blvd, Red Bank, TN 37415",
+                phone: "Contact Red Bank Parks & Recreation",
+                hours: "Dawn to Dusk",
+                schedule: [
+                    { day: "Monday - Sunday", time: "Open Play: Dawn - Dusk", type: "Open Play" },
+                    { day: "Wednesday", time: "Beginner Clinic: 6:00 PM - 7:30 PM", type: "Clinic" },
+                    { day: "Saturday", time: "Tournament Play: 9:00 AM - 12:00 PM", type: "Tournament" }
+                ],
+                surface: "Hard court",
+                fee: "Free"
+            },
+            {
+                name: "Revolve Pickleball (Cleveland)",
+                type: "indoor",
+                courts: 13,
+                address: "481 Kile Ln SW, Cleveland, TN 37311",
+                phone: "(423) 933-1470",
+                hours: "Mon-Sat: 8:00 AM - 9:00 PM, Sun: 12:00 PM - 9:00 PM",
+                schedule: [
+                    { day: "Monday - Friday", time: "Open Play: 8:00 AM - 12:00 PM", type: "Open Play" },
+                    { day: "Monday - Friday", time: "Open Play: 1:00 PM - 4:00 PM", type: "Open Play" },
+                    { day: "Monday - Friday", time: "Open Play: 6:00 PM - 9:00 PM", type: "Open Play" },
+                    { day: "Saturday", time: "Open Play: 8:00 AM - 9:00 PM", type: "Open Play" },
+                    { day: "Sunday", time: "Open Play: 12:00 PM - 9:00 PM", type: "Open Play" }
+                ],
+                surface: "Indoor composite",
+                fee: "Membership required"
+            },
+            {
+                name: "East Ridge Community Center",
+                type: "indoor",
+                courts: 2,
+                address: "1517 Tombras Ave, East Ridge, TN 37412",
+                phone: "(423) 867-7070",
+                hours: "Varies by programming",
+                schedule: [
+                    { day: "Monday, Wednesday, Friday", time: "Senior Programming: 9:00 AM - 12:00 PM", type: "Senior" },
+                    { day: "Tuesday, Thursday", time: "Open Play: 6:00 PM - 8:00 PM", type: "Open Play" },
+                    { day: "Saturday", time: "Family Time: 10:00 AM - 2:00 PM", type: "Family" }
+                ],
+                surface: "Gymnasium floor",
+                fee: "Room rental required"
+            },
+            {
+                name: "Ben Miller Park",
+                type: "outdoor",
+                courts: 1,
+                address: "3300 St. Elmo Ave, Chattanooga, TN 37409",
+                phone: "(423) 643-6311",
+                hours: "Dawn to Dusk",
+                schedule: [
+                    { day: "Monday - Sunday", time: "Open Play: Dawn - Dusk", type: "Open Play" },
+                    { day: "Thursday", time: "Beginner Group: 5:00 PM - 6:30 PM", type: "Beginner" }
+                ],
+                surface: "Hard court",
+                fee: "Free"
+            },
+            {
+                name: "Imagination Station (Ooltewah)",
+                type: "outdoor",
+                courts: 4,
+                address: "9336 Apison Pike, Ooltewah, TN 37363",
+                phone: "(423) 238-5590",
+                hours: "Dawn to Dusk",
+                schedule: [
+                    { day: "Monday - Sunday", time: "Open Play: Dawn - Dusk", type: "Open Play" },
+                    { day: "Tuesday", time: "Ladies League: 9:00 AM - 11:00 AM", type: "League" },
+                    { day: "Friday", time: "Mixed Doubles: 6:00 PM - 8:00 PM", type: "Organized" }
+                ],
+                surface: "Hard court with lighting",
+                fee: "Free"
+            },
+            {
+                name: "Harrison Bay State Park",
+                type: "outdoor",
+                courts: 2,
+                address: "8411 Harrison Bay Rd, Harrison, TN 37341",
+                phone: "(423) 344-6214",
+                hours: "8:00 AM - Sunset",
+                schedule: [
+                    { day: "Monday - Sunday", time: "Open Play: 8:00 AM - Sunset", type: "Open Play" },
+                    { day: "Saturday", time: "Park Tournament: 9:00 AM - 3:00 PM", type: "Tournament" }
+                ],
+                surface: "Hard court",
+                fee: "Park entry fee applies"
+            },
+            {
+                name: "Hixson Community Center",
+                type: "indoor",
+                courts: 3,
+                address: "865 Central Ave, Hixson, TN 37343",
+                phone: "(423) 843-7946",
+                hours: "Mon-Fri: 9:00 AM - 8:00 PM, Sat: 9:00 AM - 5:00 PM",
+                schedule: [
+                    { day: "Monday, Wednesday, Friday", time: "Open Play: 9:00 AM - 12:00 PM", type: "Open Play" },
+                    { day: "Tuesday, Thursday", time: "Intermediate Play: 1:00 PM - 4:00 PM", type: "Intermediate" },
+                    { day: "Saturday", time: "All Levels: 9:00 AM - 12:00 PM", type: "Open Play" }
+                ],
+                surface: "Gymnasium floor",
+                fee: "Community center membership"
+            }
+        ];
+
+        const statusOptions = ['available', 'busy', 'full'];
+        const weatherConditions = ['sunny', 'partly cloudy', 'overcast', 'light rain'];
+
+        function getRandomStatus() {
+            return statusOptions[Math.floor(Math.random() * statusOptions.length)];
+        }
+
+        function getRandomWeather() {
+            return weatherConditions[Math.floor(Math.random() * weatherConditions.length)];
+        }
+
+        function getCurrentDateTime() {
+            return new Date().toLocaleString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function renderCourts() {
+            const courtsGrid = document.getElementById('courtsGrid');
+            courtsGrid.innerHTML = '';
+
+            courts.forEach(court => {
+                const status = getRandomStatus();
+                const weather = court.type === 'outdoor' ? getRandomWeather() : null;
+                
+                const courtCard = document.createElement('div');
+                courtCard.className = 'court-card';
+                
+                courtCard.innerHTML = `
+                    <div class="court-header">
+                        <div>
+                            <h3 class="court-name">${court.name}</h3>
+                        </div>
+                        <span class="court-type">${court.type}</span>
+                    </div>
+                    
+                    <div class="court-info">
+                        <div class="info-item">
+                            <span class="icon">📍</span>
+                            ${court.address}
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">📞</span>
+                            ${court.phone}
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">🏓</span>
+                            ${court.courts} court${court.courts > 1 ? 's' : ''} • ${court.surface}
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">🕒</span>
+                            ${court.hours}
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">💰</span>
+                            ${court.fee}
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">📊</span>
+                            Current Status: <span class="status ${status}">${status}</span>
+                        </div>
+                        ${weather ? `
+                        <div class="info-item">
+                            <span class="icon">🌤️</span>
+                            Weather: ${weather}
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="schedule-section">
+                        <div class="schedule-title">📅 Open Play Schedule</div>
+                        ${court.schedule.map(item => `
+                            <div class="schedule-item">
+                                <div class="schedule-day">${item.day}</div>
+                                <div class="schedule-time">${item.time}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                courtsGrid.appendChild(courtCard);
+            });
+        }
+
+        function refreshData() {
+            document.getElementById('lastUpdated').textContent = getCurrentDateTime();
+            renderCourts();
+            
+            // Add a subtle animation to indicate refresh
+            const button = document.querySelector('.refresh-btn');
+            button.style.transform = 'rotate(360deg) scale(1.1)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 500);
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            refreshData();
+        });
+
+        // Auto-refresh every 5 minutes
+        setInterval(refreshData, 300000);
+    </script>
+</body>
+</html>

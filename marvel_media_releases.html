@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marvel Movies vs Video Games - Release Timeline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c1445 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background: linear-gradient(45deg, #e50914, #dc143c);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(229, 9, 20, 0.3);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(45deg, #e50914, #dc143c);
+            color: white;
+            padding: 20px 15px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 1.1em;
+            border-bottom: 3px solid #fff;
+        }
+
+        .comparison-table th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        .comparison-table th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: top;
+            transition: background-color 0.3s ease;
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .movie-title, .game-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            color: #ffd700;
+        }
+
+        .release-date {
+            color: #87ceeb;
+            font-size: 0.95em;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #ccc;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .year-header {
+            background: linear-gradient(45deg, #ffd700, #ffb347);
+            color: #000;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            padding: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .comparison-table {
+                font-size: 0.9em;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 Marvel Movies vs 🎮 Video Games</h1>
+            <p>A comprehensive comparison of release dates (1998-2025) across Marvel entertainment</p>
+        </div>
+
+        <div class="table-container">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">🎬 Marvel Movies</th>
+                        <th style="width: 50%;">🎮 Marvel Video Games</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 1998 -->
+                    <tr>
+                        <td class="year-header" colspan="2">1998</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Blade</div>
+                            <div class="release-date">August 21, 1998</div>
+                            <div class="description">Vampire hunter film starring Wesley Snipes</div>
+                        </td>
+                        <td>
+                            <div class="description" style="color: #999; font-style: italic;">No major Marvel game releases in 1998</div>
+                        </td>
+                    </tr>
+                    
+                    <!-- 2000 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2000</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">X-Men</div>
+                            <div class="release-date">July 14, 2000</div>
+                            <div class="description">The first modern Marvel superhero film that launched the X-Men franchise</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Marvel vs. Capcom 2</div>
+                            <div class="release-date">2000 (Arcade)</div>
+                            <div class="description">Classic fighting game featuring Marvel characters</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2002 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2002</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Spider-Man</div>
+                            <div class="release-date">May 3, 2002</div>
+                            <div class="description">Tobey Maguire's debut as the web-slinger</div>
+                        </td>
+                        <td>
+                            <div class="description" style="color: #999; font-style: italic;">No major Marvel game releases in 2002</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2003 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2003</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">X2: X-Men United</div>
+                            <div class="release-date">May 2, 2003</div>
+                            <div class="description">Sequel expanding the X-Men universe</div>
+                        </td>
+                        <td>
+                            <div class="description" style="color: #999; font-style: italic;">No major Marvel game releases in 2003</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2004 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2004</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Spider-Man 2</div>
+                            <div class="release-date">June 30, 2004</div>
+                            <div class="description">Tobey Maguire returns with Doc Ock as the villain</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Spider-Man 2 • X-Men Legends</div>
+                            <div class="release-date">June 28, 2004 • September 21, 2004</div>
+                            <div class="description">Acclaimed open-world Spider-Man game • RPG featuring team-based X-Men gameplay</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2005 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2005</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Fantastic Four</div>
+                            <div class="release-date">July 8, 2005</div>
+                            <div class="description">First Fantastic Four theatrical film</div>
+                        </td>
+                        <td>
+                            <div class="game-title">X-Men Legends II: Rise of Apocalypse</div>
+                            <div class="release-date">September 20, 2005</div>
+                            <div class="description">Sequel to X-Men Legends with expanded roster</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2006 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2006</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">X-Men: The Last Stand</div>
+                            <div class="release-date">May 26, 2006</div>
+                            <div class="description">Third X-Men film dealing with the Phoenix saga</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Marvel: Ultimate Alliance</div>
+                            <div class="release-date">October 24, 2006</div>
+                            <div class="description">Action RPG featuring multiple Marvel heroes</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2007 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2007</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Spider-Man 3 • Fantastic Four: Rise of the Silver Surfer</div>
+                            <div class="release-date">May 4, 2007 • June 15, 2007</div>
+                            <div class="description">Final film in the Tobey Maguire trilogy • Second Fantastic Four film</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Spider-Man 3 • Fantastic Four: Rise of the Silver Surfer</div>
+                            <div class="release-date">May 4, 2007 • June 12, 2007</div>
+                            <div class="description">Game adaptation of Spider-Man 3 • Tie-in game for the Silver Surfer film</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2008 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2008</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Iron Man • The Incredible Hulk</div>
+                            <div class="release-date">May 2, 2008 • June 13, 2008</div>
+                            <div class="description">Launch of the Marvel Cinematic Universe • Edward Norton as Bruce Banner</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Iron Man • The Incredible Hulk</div>
+                            <div class="release-date">May 2, 2008 • June 5, 2008</div>
+                            <div class="description">Action game tie-in to Iron Man • Open-world destruction game as the Hulk</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2009 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2009</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">X-Men Origins: Wolverine</div>
+                            <div class="release-date">May 1, 2009</div>
+                            <div class="description">Hugh Jackman's first solo Wolverine film</div>
+                        </td>
+                        <td>
+                            <div class="game-title">X-Men Origins: Wolverine • Marvel: Ultimate Alliance 2</div>
+                            <div class="release-date">May 1, 2009 • September 15, 2009</div>
+                            <div class="description">Action game tie-in to Wolverine film • Sequel based on Civil War storyline</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2010 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2010</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Iron Man 2</div>
+                            <div class="release-date">May 7, 2010</div>
+                            <div class="description">Robert Downey Jr. returns as Tony Stark</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Iron Man 2 • Spider-Man: Shattered Dimensions</div>
+                            <div class="release-date">May 4, 2010 • September 7, 2010</div>
+                            <div class="description">Game based on Iron Man 2 • Four different Spider-Man universes</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2011 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2011</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Thor • X-Men: First Class • Captain America: The First Avenger</div>
+                            <div class="release-date">May 6, 2011 • June 3, 2011 • July 22, 2011</div>
+                            <div class="description">Chris Hemsworth's Thor debut • Young Xavier and Magneto • Chris Evans as Captain America</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Marvel vs. Capcom 3 • Thor: God of Thunder • Captain America: Super Soldier • X-Men: Destiny</div>
+                            <div class="release-date">February 15, 2011 • May 3, 2011 • July 19, 2011 • September 27, 2011</div>
+                            <div class="description">Updated fighting game • Thor action game • Captain America WWII game • Create your own mutant RPG</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2012 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2012</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">The Avengers • The Amazing Spider-Man</div>
+                            <div class="release-date">May 4, 2012 • July 3, 2012</div>
+                            <div class="description">First MCU team-up film • Andrew Garfield's Spider-Man debut</div>
+                        </td>
+                        <td>
+                            <div class="game-title">The Amazing Spider-Man</div>
+                            <div class="release-date">June 26, 2012</div>
+                            <div class="description">Open-world game based on Andrew Garfield film</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2013 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2013</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Iron Man 3 • Thor: The Dark World</div>
+                            <div class="release-date">May 3, 2013 • November 8, 2013</div>
+                            <div class="description">Post-Avengers Iron Man solo adventure • Thor faces the Dark Elves</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Marvel Heroes • LEGO Marvel Super Heroes</div>
+                            <div class="release-date">June 4, 2013 • October 22, 2013</div>
+                            <div class="description">Free-to-play online action RPG • Family-friendly LEGO Marvel adventure</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2014 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2014</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Captain America: The Winter Soldier • The Amazing Spider-Man 2 • Guardians of the Galaxy</div>
+                            <div class="release-date">April 4, 2014 • May 2, 2014 • August 1, 2014</div>
+                            <div class="description">Steve Rogers faces his past • Andrew Garfield's second film • Space adventure introducing cosmic MCU</div>
+                        </td>
+                        <td>
+                            <div class="game-title">The Amazing Spider-Man 2 • Disney Infinity 2.0: Marvel Super Heroes • Marvel Contest of Champions</div>
+                            <div class="release-date">April 29, 2014 • September 23, 2014 • December 10, 2014</div>
+                            <div class="description">Open-world Andrew Garfield game • Toys-to-life Marvel game • Mobile fighting game</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2015 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2015</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Avengers: Age of Ultron • Ant-Man • Fantastic Four</div>
+                            <div class="release-date">May 1, 2015 • July 17, 2015 • August 7, 2015</div>
+                            <div class="description">Avengers face their own creation • Paul Rudd shrinks down • Fantastic Four reboot</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Marvel Future Fight</div>
+                            <div class="release-date">April 30, 2015</div>
+                            <div class="description">Mobile action RPG with extensive Marvel universe</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2016 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2016</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Deadpool • Captain America: Civil War • X-Men: Apocalypse • Doctor Strange</div>
+                            <div class="release-date">February 12, 2016 • May 6, 2016 • May 27, 2016 • November 4, 2016</div>
+                            <div class="description">Ryan Reynolds' R-rated debut • Heroes divided • X-Men face Apocalypse • Benedict Cumberbatch's mystical debut</div>
+                        </td>
+                        <td>
+                            <div class="game-title">LEGO Marvel's Avengers • Deadpool</div>
+                            <div class="release-date">January 26, 2016 • November 15, 2016</div>
+                            <div class="description">LEGO adaptation of first two Avengers films • Action game featuring the Merc with a Mouth</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2017 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2017</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Logan • Guardians of the Galaxy Vol. 2 • Spider-Man: Homecoming • Thor: Ragnarok</div>
+                            <div class="release-date">March 3, 2017 • May 5, 2017 • July 7, 2017 • November 3, 2017</div>
+                            <div class="description">Hugh Jackman's final Wolverine • Star-Lord meets his father • Tom Holland joins MCU • Thor loses his hammer</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Guardians of the Galaxy: The Telltale Series • Marvel vs. Capcom: Infinite • LEGO Marvel Super Heroes 2</div>
+                            <div class="release-date">April 18, 2017 • September 19, 2017 • November 14, 2017</div>
+                            <div class="description">Narrative adventure by Telltale • Latest Marvel vs. Capcom entry • Time-traveling LEGO adventure</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2018 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2018</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Black Panther • Avengers: Infinity War • Deadpool 2 • Ant-Man and the Wasp • Venom</div>
+                            <div class="release-date">February 16, 2018 • April 27, 2018 • May 18, 2018 • July 6, 2018 • October 5, 2018</div>
+                            <div class="description">Chadwick Boseman brings Wakanda to life • Beginning of the end for Phase 3 • Deadpool returns • Scott Lang partners with Hope • Tom Hardy as symbiote anti-hero</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Marvel's Spider-Man • Marvel's Spider-Man: The City That Never Sleeps (DLC)</div>
+                            <div class="release-date">September 7, 2018 • October 23, 2018</div>
+                            <div class="description">Insomniac's acclaimed open-world Spider-Man game • DLC expansion for Spider-Man</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2019 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2019</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Captain Marvel • Avengers: Endgame • Spider-Man: Far From Home • Dark Phoenix</div>
+                            <div class="release-date">March 8, 2019 • April 26, 2019 • July 2, 2019 • June 7, 2019</div>
+                            <div class="description">Brie Larson as cosmic-powered hero • Epic conclusion to Infinity Saga • Peter Parker post-Endgame • Final X-Men film in original timeline</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Marvel Ultimate Alliance 3: The Black Order</div>
+                            <div class="release-date">July 19, 2019</div>
+                            <div class="description">Nintendo Switch exclusive team-up game</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2020 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2020</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">The New Mutants</div>
+                            <div class="release-date">August 28, 2020</div>
+                            <div class="description">Horror-themed X-Men spinoff</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Marvel's Avengers • Marvel's Spider-Man: Miles Morales</div>
+                            <div class="release-date">September 4, 2020 • November 12, 2020</div>
+                            <div class="description">Live-service Avengers game • Standalone Miles Morales adventure</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2021 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2021</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Black Widow • Shang-Chi and the Legend of the Ten Rings • Eternals • Spider-Man: No Way Home • Venom: Let There Be Carnage</div>
+                            <div class="release-date">July 9, 2021 • September 3, 2021 • November 5, 2021 • December 17, 2021 • October 1, 2021</div>
+                            <div class="description">Scarlett Johansson's solo adventure • Simu Liu brings martial arts to MCU • Chloé Zhao's cosmic epic • Multiverse Spider-Man adventure • Tom Hardy vs. Carnage</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Marvel's Guardians of the Galaxy</div>
+                            <div class="release-date">October 26, 2021</div>
+                            <div class="description">Single-player narrative adventure by Eidos-Montréal</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2022 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2022</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Doctor Strange in the Multiverse of Madness • Thor: Love and Thunder • Black Panther: Wakanda Forever • Morbius</div>
+                            <div class="release-date">May 6, 2022 • July 8, 2022 • November 11, 2022 • April 1, 2022</div>
+                            <div class="description">Multiverse exploration with Wanda • Thor and Jane Foster • Tribute to Chadwick Boseman • Jared Leto as the Living Vampire</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Marvel Snap • Marvel's Midnight Suns</div>
+                            <div class="release-date">October 18, 2022 • December 2, 2022</div>
+                            <div class="description">Digital collectible card game • Tactical RPG featuring supernatural Marvel heroes</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2023 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2023</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Ant-Man and the Wasp: Quantumania • Guardians of the Galaxy Vol. 3 • Spider-Man: Across the Spider-Verse • The Marvels</div>
+                            <div class="release-date">February 17, 2023 • May 5, 2023 • June 2, 2023 • November 10, 2023</div>
+                            <div class="description">Quantum Realm adventure with Kang • James Gunn's final Guardians film • Miles Morales multiverse animation • Captain Marvel, Kamala Khan, and Monica Rambeau team-up</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Marvel's Spider-Man 2</div>
+                            <div class="release-date">October 20, 2023</div>
+                            <div class="description">Sequel featuring both Peter Parker and Miles Morales with Venom</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2024 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2024</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Deadpool & Wolverine • Madame Web • Kraven the Hunter • Venom: The Last Dance</div>
+                            <div class="release-date">July 26, 2024 • February 14, 2024 • December 13, 2024 • October 25, 2024</div>
+                            <div class="description">Ryan Reynolds and Hugh Jackman MCU debut • Dakota Johnson as psychic Spider-Woman • Aaron Taylor-Johnson as the hunter • Final Venom film with Tom Hardy</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Marvel Rivals</div>
+                            <div class="release-date">December 6, 2024</div>
+                            <div class="description">Team-based PvP shooter featuring Marvel heroes and villains</div>
+                        </td>
+                    </tr>
+
+                    <!-- 2025 -->
+                    <tr>
+                        <td class="year-header" colspan="2">2025</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="movie-title">Captain America: Brave New World • Thunderbolts* • Fantastic Four: First Steps</div>
+                            <div class="release-date">February 14, 2025 • May 2, 2025 • July 25, 2025</div>
+                            <div class="description">Anthony Mackie as the new Captain America • Anti-hero team-up film • MCU's First Family debut</div>
+                        </td>
+                        <td>
+                            <div class="game-title">Marvel Cosmic Invasion • Marvel 1943: Rise of Hydra (TBA) • Marvel's Wolverine (TBA) • Marvel's Blade (TBA)</div>
+                            <div class="release-date">2025 (TBA) • TBA • TBA • TBA</div>
+                            <div class="description">Retro beat 'em up with pixel art style • Captain America and Black Panther WWII adventure • Insomniac's Wolverine game • Vampire hunter action game</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
