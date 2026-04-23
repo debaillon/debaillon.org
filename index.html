@@ -828,7 +828,7 @@
         </div>
       </div>
       <div class="fade-up">
-        <form class="contact-form" onsubmit="handleSubmit(event)">
+        <form class="contact-form" id="contact-form" onsubmit="handleSubmit(event)">
           <div class="form-row">
             <div class="form-group">
               <label for="name">Full Name</label>
@@ -853,6 +853,9 @@
           <button type="submit" class="form-submit">Send Message →</button>
           <div id="form-success" style="display:none; margin-top:1rem; font-size:0.85rem; color:var(--accent-lt);">
             Thank you — we'll be in touch within one business day.
+          </div>
+          <div id="form-error" style="display:none; margin-top:1rem; font-size:0.85rem; color:#e07070;">
+            Something went wrong. Please try again or email us directly.
           </div>
         </form>
       </div>
@@ -883,11 +886,38 @@
       el.style.transitionDelay = `${i * 60}ms`;
     });
 
-    // Simple form handler
-    function handleSubmit(e) {
+    // Formspree submission
+    async function handleSubmit(e) {
       e.preventDefault();
-      document.getElementById('form-success').style.display = 'block';
-      e.target.querySelectorAll('input, textarea').forEach(f => f.value = '');
+      const form = e.target;
+      const btn = form.querySelector('.form-submit');
+      const success = document.getElementById('form-success');
+      const error = document.getElementById('form-error');
+
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      success.style.display = 'none';
+      error.style.display = 'none';
+
+      try {
+        const res = await fetch('https://formspree.io/f/meozlzaz', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form)
+        });
+
+        if (res.ok) {
+          success.style.display = 'block';
+          form.querySelectorAll('input, textarea').forEach(f => f.value = '');
+          btn.textContent = 'Message Sent ✓';
+        } else {
+          throw new Error('Server error');
+        }
+      } catch {
+        error.style.display = 'block';
+        btn.textContent = 'Send Message →';
+        btn.disabled = false;
+      }
     }
   </script>
 </body>
